@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package api.book_store.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "https://github.com/9Neechan/book-store.git/pkg/book_store/v1;author";
+
+service AuthorV1 {
+  rpc Create(CreateRequest) returns (CreateResponse);
+  rpc Get(GetRequest) returns (GetResponse);
+}
+
+message AuthorInfo {
+  string name_author = 1;
+}
+
+message Author {
+  string uuid = 1;
+  AuthorInfo info = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp updated_at = 4;
+}
+
+message CreateRequest {
+  AuthorInfo info = 1;
+}
+
+message CreateResponse {
+  string uuid = 1;
+}
+
+message GetRequest {
+  string uuid = 1;
+}
+
+message GetResponse {
+  Author author = 1;
+}

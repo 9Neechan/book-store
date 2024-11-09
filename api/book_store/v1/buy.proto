@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package api.book_store.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/9Neechan/book-store/pkg/book_store/v1;buy";
+
+service BuyV1 {
+  rpc Create(CreateRequest) returns (CreateResponse);
+  rpc Get(GetRequest) returns (GetResponse);
+}
+
+message BuyInfo {
+  string book_id = 1;
+  int64 amount = 5;
+}
+
+message Buy {
+  string uuid = 1;
+  BuyInfo info = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp updated_at = 4;
+}
+
+message CreateRequest {
+  BuyInfo info = 1;
+}
+
+message CreateResponse {
+  string uuid = 1;
+}
+
+message GetRequest {
+  string uuid = 1;
+}
+
+message GetResponse {
+  Buy buy = 1;
+}

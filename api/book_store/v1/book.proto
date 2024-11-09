@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package api.book_store.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/9Neechan/book-store/pkg/book_store/v1;book";
+
+service BookV1 {
+  rpc Create(CreateRequest) returns (CreateResponse);
+  rpc Get(GetRequest) returns (GetResponse);
+  rpc ChangePrice(ChangePriceRequest) returns (ChangePriceResponse);
+  rpc ChangeAmount(ChangeAmountRequest) returns (ChangeAmountResponse);
+}
+
+message BookInfo {
+  string title = 1;
+  int64 author_id = 2;
+  int64 genre_id = 3;
+  int64 price = 4;
+  int64 amount = 5;
+}
+
+message Book {
+  string uuid = 1;
+  BookInfo info = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp updated_at = 4;
+}
+
+message CreateRequest {
+  BookInfo info = 1;
+}
+
+message CreateResponse {
+  string uuid = 1;
+}
+
+message GetRequest {
+  string uuid = 1;
+}
+
+message GetResponse {
+  Book book = 1;
+}
+
+message ChangePriceRequest {
+  string uuid = 1;
+  int64 price = 2;  //BookInfo.price
+}
+
+message ChangePriceResponse {
+  Book book = 1;
+}
+
+message ChangeAmountRequest {
+  string uuid = 1;
+  int64 amount = 2;  //BookInfo.amount
+}
+
+message ChangeAmountResponse {
+  Book book = 1;
+}
