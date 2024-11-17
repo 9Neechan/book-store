@@ -37,11 +37,3 @@ generate-book-store-api:
 	--go-grpc_out=pkg/book_store/v1/buy --go-grpc_opt=paths=source_relative \
 	--plugin=protoc-gen-go-grpc=bin/protoc-gen-go-grpc \
 	api/book_store/v1/buy.proto 
-
-	mkdir -p pkg/book_store/v1/genre
-	protoc --proto_path api/book_store/v1 \
-	--go_out=pkg/book_store/v1/genre --go_opt=paths=source_relative \
-	--plugin=protoc-gen-go=bin/protoc-gen-go \
-	--go-grpc_out=pkg/book_store/v1/genre --go-grpc_opt=paths=source_relative \
-	--plugin=protoc-gen-go-grpc=bin/protoc-gen-go-grpc \
-	api/book_store/v1/genre.proto 

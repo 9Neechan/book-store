@@ -9,23 +9,23 @@ option go_package = "github.com/9Neechan/book-store/pkg/book_store/v1;book";
 service BookV1 {
   rpc Create(CreateRequest) returns (CreateResponse);
   rpc Get(GetRequest) returns (GetResponse);
-  rpc ChangePrice(ChangePriceRequest) returns (ChangePriceResponse);
-  rpc ChangeAmount(ChangeAmountRequest) returns (ChangeAmountResponse);
+  rpc UpdatePrice(UpdatePriceRequest) returns (UpdatePriceResponse);
+  rpc UpdateAmount(UpdateAmountRequest) returns (UpdateAmountResponse);
 }
 
 message BookInfo {
-  string title = 1;
-  int64 author_id = 2;
-  int64 genre_id = 3;
-  int64 price = 4;
-  int64 amount = 5;
+  int64 id = 1;
+  string title = 2;
+  int64 author_id = 3;
+  string genre = 4;
+  int64 price = 5;
+  int64 amount = 6;
 }
 
 message Book {
-  string uuid = 1;
-  BookInfo info = 2;
-  google.protobuf.Timestamp created_at = 3;
-  google.protobuf.Timestamp updated_at = 4;
+  BookInfo info = 1;
+  google.protobuf.Timestamp created_at = 2;
+  google.protobuf.Timestamp updated_at = 3;
 }
 
 message CreateRequest {
@@ -33,31 +33,31 @@ message CreateRequest {
 }
 
 message CreateResponse {
-  string uuid = 1;
+  int64 id = 1;
 }
 
 message GetRequest {
-  string uuid = 1;
+  int64 id = 1;
 }
 
 message GetResponse {
   Book book = 1;
 }
 
-message ChangePriceRequest {
-  string uuid = 1;
+message UpdatePriceRequest {
+  int64 id = 1;
   int64 price = 2;  //BookInfo.price
 }
 
-message ChangePriceResponse {
+message UpdatePriceResponse {
   Book book = 1;
 }
 
-message ChangeAmountRequest {
-  string uuid = 1;
+message UpdateAmountRequest {
+  int64 id = 1;
   int64 amount = 2;  //BookInfo.amount
 }
 
-message ChangeAmountResponse {
+message UpdateAmountResponse {
   Book book = 1;
 }

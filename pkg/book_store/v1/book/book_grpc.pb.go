@@ -24,8 +24,8 @@ const _ = grpc.SupportPackageIsVersion7
 type BookV1Client interface {
 	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
-	ChangePrice(ctx context.Context, in *ChangePriceRequest, opts ...grpc.CallOption) (*ChangePriceResponse, error)
-	ChangeAmount(ctx context.Context, in *ChangeAmountRequest, opts ...grpc.CallOption) (*ChangeAmountResponse, error)
+	UpdatePrice(ctx context.Context, in *UpdatePriceRequest, opts ...grpc.CallOption) (*UpdatePriceResponse, error)
+	UpdateAmount(ctx context.Context, in *UpdateAmountRequest, opts ...grpc.CallOption) (*UpdateAmountResponse, error)
 }
 
 type bookV1Client struct {
@@ -54,18 +54,18 @@ func (c *bookV1Client) Get(ctx context.Context, in *GetRequest, opts ...grpc.Cal
 	return out, nil
 }
 
-func (c *bookV1Client) ChangePrice(ctx context.Context, in *ChangePriceRequest, opts ...grpc.CallOption) (*ChangePriceResponse, error) {
-	out := new(ChangePriceResponse)
-	err := c.cc.Invoke(ctx, "/api.book_store.v1.BookV1/ChangePrice", in, out, opts...)
+func (c *bookV1Client) UpdatePrice(ctx context.Context, in *UpdatePriceRequest, opts ...grpc.CallOption) (*UpdatePriceResponse, error) {
+	out := new(UpdatePriceResponse)
+	err := c.cc.Invoke(ctx, "/api.book_store.v1.BookV1/UpdatePrice", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *bookV1Client) ChangeAmount(ctx context.Context, in *ChangeAmountRequest, opts ...grpc.CallOption) (*ChangeAmountResponse, error) {
-	out := new(ChangeAmountResponse)
-	err := c.cc.Invoke(ctx, "/api.book_store.v1.BookV1/ChangeAmount", in, out, opts...)
+func (c *bookV1Client) UpdateAmount(ctx context.Context, in *UpdateAmountRequest, opts ...grpc.CallOption) (*UpdateAmountResponse, error) {
+	out := new(UpdateAmountResponse)
+	err := c.cc.Invoke(ctx, "/api.book_store.v1.BookV1/UpdateAmount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -78,8 +78,8 @@ func (c *bookV1Client) ChangeAmount(ctx context.Context, in *ChangeAmountRequest
 type BookV1Server interface {
 	Create(context.Context, *CreateRequest) (*CreateResponse, error)
 	Get(context.Context, *GetRequest) (*GetResponse, error)
-	ChangePrice(context.Context, *ChangePriceRequest) (*ChangePriceResponse, error)
-	ChangeAmount(context.Context, *ChangeAmountRequest) (*ChangeAmountResponse, error)
+	UpdatePrice(context.Context, *UpdatePriceRequest) (*UpdatePriceResponse, error)
+	UpdateAmount(context.Context, *UpdateAmountRequest) (*UpdateAmountResponse, error)
 	mustEmbedUnimplementedBookV1Server()
 }
 
@@ -93,11 +93,11 @@ func (UnimplementedBookV1Server) Create(context.Context, *CreateRequest) (*Creat
 func (UnimplementedBookV1Server) Get(context.Context, *GetRequest) (*GetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedBookV1Server) ChangePrice(context.Context, *ChangePriceRequest) (*ChangePriceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ChangePrice not implemented")
+func (UnimplementedBookV1Server) UpdatePrice(context.Context, *UpdatePriceRequest) (*UpdatePriceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePrice not implemented")
 }
-func (UnimplementedBookV1Server) ChangeAmount(context.Context, *ChangeAmountRequest) (*ChangeAmountResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ChangeAmount not implemented")
+func (UnimplementedBookV1Server) UpdateAmount(context.Context, *UpdateAmountRequest) (*UpdateAmountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAmount not implemented")
 }
 func (UnimplementedBookV1Server) mustEmbedUnimplementedBookV1Server() {}
 
@@ -148,38 +148,38 @@ func _BookV1_Get_Handler(srv interface{}, ctx context.Context, dec func(interfac
 	return interceptor(ctx, in, info, handler)
 }
 
-func _BookV1_ChangePrice_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ChangePriceRequest)
+func _BookV1_UpdatePrice_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePriceRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BookV1Server).ChangePrice(ctx, in)
+		return srv.(BookV1Server).UpdatePrice(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.book_store.v1.BookV1/ChangePrice",
+		FullMethod: "/api.book_store.v1.BookV1/UpdatePrice",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BookV1Server).ChangePrice(ctx, req.(*ChangePriceRequest))
+		return srv.(BookV1Server).UpdatePrice(ctx, req.(*UpdatePriceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _BookV1_ChangeAmount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ChangeAmountRequest)
+func _BookV1_UpdateAmount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAmountRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BookV1Server).ChangeAmount(ctx, in)
+		return srv.(BookV1Server).UpdateAmount(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.book_store.v1.BookV1/ChangeAmount",
+		FullMethod: "/api.book_store.v1.BookV1/UpdateAmount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BookV1Server).ChangeAmount(ctx, req.(*ChangeAmountRequest))
+		return srv.(BookV1Server).UpdateAmount(ctx, req.(*UpdateAmountRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -200,12 +200,12 @@ var BookV1_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _BookV1_Get_Handler,
 		},
 		{
-			MethodName: "ChangePrice",
-			Handler:    _BookV1_ChangePrice_Handler,
+			MethodName: "UpdatePrice",
+			Handler:    _BookV1_UpdatePrice_Handler,
 		},
 		{
-			MethodName: "ChangeAmount",
-			Handler:    _BookV1_ChangeAmount_Handler,
+			MethodName: "UpdateAmount",
+			Handler:    _BookV1_UpdateAmount_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

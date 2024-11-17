@@ -12,14 +12,14 @@ service AuthorV1 {
 }
 
 message AuthorInfo {
-  string name_author = 1;
+  int64 id = 1;
+  string name_author = 2;
 }
 
 message Author {
-  string uuid = 1;
-  AuthorInfo info = 2;
-  google.protobuf.Timestamp created_at = 3;
-  google.protobuf.Timestamp updated_at = 4;
+  AuthorInfo info = 1;
+  google.protobuf.Timestamp created_at = 2;
+  google.protobuf.Timestamp updated_at = 3;
 }
 
 message CreateRequest {
@@ -27,11 +27,11 @@ message CreateRequest {
 }
 
 message CreateResponse {
-  string uuid = 1;
+  int64 id = 1;
 }
 
 message GetRequest {
-  string uuid = 1;
+  int64 id = 1;
 }
 
 message GetResponse {
