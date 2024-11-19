@@ -2,7 +2,7 @@
 Golang pet project + protobuf + PG + grpc
 
 ## Схема БД
-![alt text](src/readme/db_scheme.png =250×250)
+![alt text](src/readme/db_scheme.png)
 
 
 ## Реализована слоистая архитектура
