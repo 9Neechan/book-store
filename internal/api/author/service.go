@@ -1,4 +1,4 @@
-package user
+package author
 
 import (
 	service "github.com/9Neechan/book-store/internal/service/book_store"

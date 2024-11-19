@@ -1,18 +1,20 @@
-package author
+package book
 
 import (
 	"context"
+	//"strconv"
 
 	"github.com/9Neechan/book-store/internal/converter"
-	desc "github.com/9Neechan/book-store/pkg/book_store/v1/author"
+	desc "github.com/9Neechan/book-store/pkg/book_store/v1/book"
 )
 
 func (i *Implementation) Create(ctx context.Context, req *desc.CreateRequest) (*desc.CreateResponse, error) {
-	err := i.authorService.Create(ctx, converter.ToAuthorInfoFromDesc(req.GetInfo()))
+	_, err := i.bookService.Create(ctx, converter.ToBookInfoFromDesc(req.GetInfo()))
 	if err != nil {
 		return nil, err
 	}
 
 	return &desc.CreateResponse{
+		
 	}, nil
 }

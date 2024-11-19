@@ -1,14 +1,14 @@
-package author
+package buy
 
 import (
 	"context"
 
 	"github.com/9Neechan/book-store/internal/converter"
-	desc "github.com/9Neechan/book-store/pkg/book_store/v1/author"
+	desc "github.com/9Neechan/book-store/pkg/book_store/v1/buy"
 )
 
 func (i *Implementation) Create(ctx context.Context, req *desc.CreateRequest) (*desc.CreateResponse, error) {
-	err := i.authorService.Create(ctx, converter.ToAuthorInfoFromDesc(req.GetInfo()))
+	err := i.buyService.Create(ctx, converter.ToBuyInfoFromDesc(req.GetInfo()))
 	if err != nil {
 		return nil, err
 	}
@@ -16,3 +16,4 @@ func (i *Implementation) Create(ctx context.Context, req *desc.CreateRequest) (*
 	return &desc.CreateResponse{
 	}, nil
 }
+
