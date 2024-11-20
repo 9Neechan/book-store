@@ -7,13 +7,13 @@ import (
 	desc "github.com/9Neechan/book-store/pkg/book_store/v1/book"
 )
 
-func (i *Implementation) Get(ctx context.Context, req *desc.GetRequest) (*desc.GetResponse, error) {
+func (i *Implementation) Get(ctx context.Context, req *desc.GetRequestBook) (*desc.GetResponseBook, error) {
 	book, err := i.bookService.Get(ctx, int(req.GetId()))
 	if err != nil {
 		return nil, err
 	}
 
-	return &desc.GetResponse{
+	return &desc.GetResponseBook{
 		Book: converter.ToBookFromService(book),
 	}, nil
 }

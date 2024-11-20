@@ -10,11 +10,12 @@ import (
 	"google.golang.org/grpc/reflection"
 
 	"github.com/9Neechan/book-store/internal/config"
-	desc "github.com/9Neechan/book-store/pkg/user_v1"
+	user_desc "github.com/9Neechan/book-store/pkg/user_v1"
+	author_desc  "github.com/9Neechan/book-store/pkg/book_store/v1/author"
 )
 
 type App struct {
-	serviceProvider *serviceProvider
+	ServiceProvider *ServiceProvider
 	grpcServer      *grpc.Server
 }
 
@@ -51,7 +52,8 @@ func (a *App) initDeps(ctx context.Context) error {
 }
 
 func (a *App) initConfig(_ context.Context) error {
-	err := config.Load(".env")
+	//err := config.Load(".env")
+	err := config.Load("/Users/neechan/dev/go_projects/book-store/.env")
 	if err != nil {
 		return err
 	}
@@ -60,7 +62,7 @@ func (a *App) initConfig(_ context.Context) error {
 }
 
 func (a *App) initServiceProvider(_ context.Context) error {
-	a.serviceProvider = newServiceProvider()
+	a.ServiceProvider = newServiceProvider()
 	return nil
 }
 
@@ -69,15 +71,16 @@ func (a *App) initGRPCServer(_ context.Context) error {
 
 	reflection.Register(a.grpcServer)
 
-	desc.RegisterUserV1Server(a.grpcServer, a.serviceProvider.UserImpl())
+	user_desc.RegisterUserV1Server(a.grpcServer, a.ServiceProvider.UserImpl())
+	author_desc.RegisterAuthorV1Server(a.grpcServer, a.ServiceProvider.AuthorImpl())
 
 	return nil
 }
 
 func (a *App) runGRPCServer() error {
-	log.Printf("GRPC server is running on %s", a.serviceProvider.GRPCConfig().Address())
+	log.Printf("GRPC server is running on %s", a.ServiceProvider.GRPCConfig().Address())
 
-	list, err := net.Listen("tcp", a.serviceProvider.GRPCConfig().Address())
+	list, err := net.Listen("tcp", a.ServiceProvider.GRPCConfig().Address())
 	if err != nil {
 		return err
 	}

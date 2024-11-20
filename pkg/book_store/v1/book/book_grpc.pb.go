@@ -22,10 +22,10 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BookV1Client interface {
-	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
-	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
-	UpdatePrice(ctx context.Context, in *UpdatePriceRequest, opts ...grpc.CallOption) (*UpdatePriceResponse, error)
-	UpdateAmount(ctx context.Context, in *UpdateAmountRequest, opts ...grpc.CallOption) (*UpdateAmountResponse, error)
+	Create(ctx context.Context, in *CreateRequestBook, opts ...grpc.CallOption) (*CreateResponseBook, error)
+	Get(ctx context.Context, in *GetRequestBook, opts ...grpc.CallOption) (*GetResponseBook, error)
+	UpdatePrice(ctx context.Context, in *UpdatePriceRequestBook, opts ...grpc.CallOption) (*UpdatePriceResponseBook, error)
+	UpdateAmount(ctx context.Context, in *UpdateAmountRequestBook, opts ...grpc.CallOption) (*UpdateAmountResponseBook, error)
 }
 
 type bookV1Client struct {
@@ -36,8 +36,8 @@ func NewBookV1Client(cc grpc.ClientConnInterface) BookV1Client {
 	return &bookV1Client{cc}
 }
 
-func (c *bookV1Client) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
-	out := new(CreateResponse)
+func (c *bookV1Client) Create(ctx context.Context, in *CreateRequestBook, opts ...grpc.CallOption) (*CreateResponseBook, error) {
+	out := new(CreateResponseBook)
 	err := c.cc.Invoke(ctx, "/api.book_store.v1.BookV1/Create", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -45,8 +45,8 @@ func (c *bookV1Client) Create(ctx context.Context, in *CreateRequest, opts ...gr
 	return out, nil
 }
 
-func (c *bookV1Client) Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
-	out := new(GetResponse)
+func (c *bookV1Client) Get(ctx context.Context, in *GetRequestBook, opts ...grpc.CallOption) (*GetResponseBook, error) {
+	out := new(GetResponseBook)
 	err := c.cc.Invoke(ctx, "/api.book_store.v1.BookV1/Get", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -54,8 +54,8 @@ func (c *bookV1Client) Get(ctx context.Context, in *GetRequest, opts ...grpc.Cal
 	return out, nil
 }
 
-func (c *bookV1Client) UpdatePrice(ctx context.Context, in *UpdatePriceRequest, opts ...grpc.CallOption) (*UpdatePriceResponse, error) {
-	out := new(UpdatePriceResponse)
+func (c *bookV1Client) UpdatePrice(ctx context.Context, in *UpdatePriceRequestBook, opts ...grpc.CallOption) (*UpdatePriceResponseBook, error) {
+	out := new(UpdatePriceResponseBook)
 	err := c.cc.Invoke(ctx, "/api.book_store.v1.BookV1/UpdatePrice", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -63,8 +63,8 @@ func (c *bookV1Client) UpdatePrice(ctx context.Context, in *UpdatePriceRequest, 
 	return out, nil
 }
 
-func (c *bookV1Client) UpdateAmount(ctx context.Context, in *UpdateAmountRequest, opts ...grpc.CallOption) (*UpdateAmountResponse, error) {
-	out := new(UpdateAmountResponse)
+func (c *bookV1Client) UpdateAmount(ctx context.Context, in *UpdateAmountRequestBook, opts ...grpc.CallOption) (*UpdateAmountResponseBook, error) {
+	out := new(UpdateAmountResponseBook)
 	err := c.cc.Invoke(ctx, "/api.book_store.v1.BookV1/UpdateAmount", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -76,10 +76,10 @@ func (c *bookV1Client) UpdateAmount(ctx context.Context, in *UpdateAmountRequest
 // All implementations must embed UnimplementedBookV1Server
 // for forward compatibility
 type BookV1Server interface {
-	Create(context.Context, *CreateRequest) (*CreateResponse, error)
-	Get(context.Context, *GetRequest) (*GetResponse, error)
-	UpdatePrice(context.Context, *UpdatePriceRequest) (*UpdatePriceResponse, error)
-	UpdateAmount(context.Context, *UpdateAmountRequest) (*UpdateAmountResponse, error)
+	Create(context.Context, *CreateRequestBook) (*CreateResponseBook, error)
+	Get(context.Context, *GetRequestBook) (*GetResponseBook, error)
+	UpdatePrice(context.Context, *UpdatePriceRequestBook) (*UpdatePriceResponseBook, error)
+	UpdateAmount(context.Context, *UpdateAmountRequestBook) (*UpdateAmountResponseBook, error)
 	mustEmbedUnimplementedBookV1Server()
 }
 
@@ -87,16 +87,16 @@ type BookV1Server interface {
 type UnimplementedBookV1Server struct {
 }
 
-func (UnimplementedBookV1Server) Create(context.Context, *CreateRequest) (*CreateResponse, error) {
+func (UnimplementedBookV1Server) Create(context.Context, *CreateRequestBook) (*CreateResponseBook, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedBookV1Server) Get(context.Context, *GetRequest) (*GetResponse, error) {
+func (UnimplementedBookV1Server) Get(context.Context, *GetRequestBook) (*GetResponseBook, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedBookV1Server) UpdatePrice(context.Context, *UpdatePriceRequest) (*UpdatePriceResponse, error) {
+func (UnimplementedBookV1Server) UpdatePrice(context.Context, *UpdatePriceRequestBook) (*UpdatePriceResponseBook, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePrice not implemented")
 }
-func (UnimplementedBookV1Server) UpdateAmount(context.Context, *UpdateAmountRequest) (*UpdateAmountResponse, error) {
+func (UnimplementedBookV1Server) UpdateAmount(context.Context, *UpdateAmountRequestBook) (*UpdateAmountResponseBook, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAmount not implemented")
 }
 func (UnimplementedBookV1Server) mustEmbedUnimplementedBookV1Server() {}
@@ -113,7 +113,7 @@ func RegisterBookV1Server(s grpc.ServiceRegistrar, srv BookV1Server) {
 }
 
 func _BookV1_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateRequest)
+	in := new(CreateRequestBook)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -125,13 +125,13 @@ func _BookV1_Create_Handler(srv interface{}, ctx context.Context, dec func(inter
 		FullMethod: "/api.book_store.v1.BookV1/Create",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BookV1Server).Create(ctx, req.(*CreateRequest))
+		return srv.(BookV1Server).Create(ctx, req.(*CreateRequestBook))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _BookV1_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetRequest)
+	in := new(GetRequestBook)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -143,13 +143,13 @@ func _BookV1_Get_Handler(srv interface{}, ctx context.Context, dec func(interfac
 		FullMethod: "/api.book_store.v1.BookV1/Get",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BookV1Server).Get(ctx, req.(*GetRequest))
+		return srv.(BookV1Server).Get(ctx, req.(*GetRequestBook))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _BookV1_UpdatePrice_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdatePriceRequest)
+	in := new(UpdatePriceRequestBook)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -161,13 +161,13 @@ func _BookV1_UpdatePrice_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: "/api.book_store.v1.BookV1/UpdatePrice",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BookV1Server).UpdatePrice(ctx, req.(*UpdatePriceRequest))
+		return srv.(BookV1Server).UpdatePrice(ctx, req.(*UpdatePriceRequestBook))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _BookV1_UpdateAmount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateAmountRequest)
+	in := new(UpdateAmountRequestBook)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -179,7 +179,7 @@ func _BookV1_UpdateAmount_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: "/api.book_store.v1.BookV1/UpdateAmount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BookV1Server).UpdateAmount(ctx, req.(*UpdateAmountRequest))
+		return srv.(BookV1Server).UpdateAmount(ctx, req.(*UpdateAmountRequestBook))
 	}
 	return interceptor(ctx, in, info, handler)
 }

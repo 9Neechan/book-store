@@ -6,9 +6,9 @@ import (
 	"time"
 
 	"github.com/9Neechan/book-store/internal/model"
-	def "github.com/9Neechan/book-store/internal/repository/book_store"
-	"github.com/9Neechan/book-store/internal/repository/book_store/author/converter"
-	repoModel "github.com/9Neechan/book-store/internal/repository/book_store/author/model"
+	def "github.com/9Neechan/book-store/internal/repository"
+	"github.com/9Neechan/book-store/internal/repository/author/converter"
+	repoModel "github.com/9Neechan/book-store/internal/repository/author/model"
 )
 
 var _ def.AuthorRepository = (*repository)(nil)

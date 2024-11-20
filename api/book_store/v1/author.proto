@@ -7,8 +7,8 @@ import "google/protobuf/timestamp.proto";
 option go_package = "https://github.com/9Neechan/book-store.git/pkg/book_store/v1;author";
 
 service AuthorV1 {
-  rpc Create(CreateRequest) returns (CreateResponse);
-  rpc Get(GetRequest) returns (GetResponse);
+  rpc Create(CreateRequestAuthor) returns (CreateResponseAuthor);
+  rpc Get(GetRequestAuthor) returns (GetResponseAuthor);
 }
 
 message AuthorInfo {
@@ -22,18 +22,18 @@ message Author {
   google.protobuf.Timestamp updated_at = 3;
 }
 
-message CreateRequest {
+message CreateRequestAuthor {
   AuthorInfo info = 1;
 }
 
-message CreateResponse {
+message CreateResponseAuthor {
   int64 id = 1;
 }
 
-message GetRequest {
+message GetRequestAuthor {
   int64 id = 1;
 }
 
-message GetResponse {
+message GetResponseAuthor {
   Author author = 1;
 }

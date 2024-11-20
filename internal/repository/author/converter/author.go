@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/9Neechan/book-store/internal/model"
-	repoModel "github.com/9Neechan/book-store/internal/repository/book_store/author/model"
+	repoModel "github.com/9Neechan/book-store/internal/repository/author/model"
 )
 
 func ToAuthorFromRepo(author *repoModel.Author) *model.Author {

@@ -22,8 +22,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthorV1Client interface {
-	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
-	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
+	Create(ctx context.Context, in *CreateRequestAuthor, opts ...grpc.CallOption) (*CreateResponseAuthor, error)
+	Get(ctx context.Context, in *GetRequestAuthor, opts ...grpc.CallOption) (*GetResponseAuthor, error)
 }
 
 type authorV1Client struct {
@@ -34,8 +34,8 @@ func NewAuthorV1Client(cc grpc.ClientConnInterface) AuthorV1Client {
 	return &authorV1Client{cc}
 }
 
-func (c *authorV1Client) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
-	out := new(CreateResponse)
+func (c *authorV1Client) Create(ctx context.Context, in *CreateRequestAuthor, opts ...grpc.CallOption) (*CreateResponseAuthor, error) {
+	out := new(CreateResponseAuthor)
 	err := c.cc.Invoke(ctx, "/api.book_store.v1.AuthorV1/Create", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -43,8 +43,8 @@ func (c *authorV1Client) Create(ctx context.Context, in *CreateRequest, opts ...
 	return out, nil
 }
 
-func (c *authorV1Client) Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
-	out := new(GetResponse)
+func (c *authorV1Client) Get(ctx context.Context, in *GetRequestAuthor, opts ...grpc.CallOption) (*GetResponseAuthor, error) {
+	out := new(GetResponseAuthor)
 	err := c.cc.Invoke(ctx, "/api.book_store.v1.AuthorV1/Get", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -56,8 +56,8 @@ func (c *authorV1Client) Get(ctx context.Context, in *GetRequest, opts ...grpc.C
 // All implementations must embed UnimplementedAuthorV1Server
 // for forward compatibility
 type AuthorV1Server interface {
-	Create(context.Context, *CreateRequest) (*CreateResponse, error)
-	Get(context.Context, *GetRequest) (*GetResponse, error)
+	Create(context.Context, *CreateRequestAuthor) (*CreateResponseAuthor, error)
+	Get(context.Context, *GetRequestAuthor) (*GetResponseAuthor, error)
 	mustEmbedUnimplementedAuthorV1Server()
 }
 
@@ -65,10 +65,10 @@ type AuthorV1Server interface {
 type UnimplementedAuthorV1Server struct {
 }
 
-func (UnimplementedAuthorV1Server) Create(context.Context, *CreateRequest) (*CreateResponse, error) {
+func (UnimplementedAuthorV1Server) Create(context.Context, *CreateRequestAuthor) (*CreateResponseAuthor, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedAuthorV1Server) Get(context.Context, *GetRequest) (*GetResponse, error) {
+func (UnimplementedAuthorV1Server) Get(context.Context, *GetRequestAuthor) (*GetResponseAuthor, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
 func (UnimplementedAuthorV1Server) mustEmbedUnimplementedAuthorV1Server() {}
@@ -85,7 +85,7 @@ func RegisterAuthorV1Server(s grpc.ServiceRegistrar, srv AuthorV1Server) {
 }
 
 func _AuthorV1_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateRequest)
+	in := new(CreateRequestAuthor)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -97,13 +97,13 @@ func _AuthorV1_Create_Handler(srv interface{}, ctx context.Context, dec func(int
 		FullMethod: "/api.book_store.v1.AuthorV1/Create",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthorV1Server).Create(ctx, req.(*CreateRequest))
+		return srv.(AuthorV1Server).Create(ctx, req.(*CreateRequestAuthor))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _AuthorV1_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetRequest)
+	in := new(GetRequestAuthor)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -115,7 +115,7 @@ func _AuthorV1_Get_Handler(srv interface{}, ctx context.Context, dec func(interf
 		FullMethod: "/api.book_store.v1.AuthorV1/Get",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthorV1Server).Get(ctx, req.(*GetRequest))
+		return srv.(AuthorV1Server).Get(ctx, req.(*GetRequestAuthor))
 	}
 	return interceptor(ctx, in, info, handler)
 }

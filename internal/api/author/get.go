@@ -7,13 +7,13 @@ import (
 	desc "github.com/9Neechan/book-store/pkg/book_store/v1/author"
 )
 
-func (i *Implementation) Get(ctx context.Context, req *desc.GetRequest) (*desc.GetResponse, error) {
+func (i *Implementation) Get(ctx context.Context, req *desc.GetRequestAuthor) (*desc.GetResponseAuthor, error) {
 	author, err := i.authorService.Get(ctx, int(req.GetId()))
 	if err != nil {
 		return nil, err
 	}
 
-	return &desc.GetResponse{
+	return &desc.GetResponseAuthor{
 		Author: converter.ToAuthorFromService(author),
 	}, nil
 }

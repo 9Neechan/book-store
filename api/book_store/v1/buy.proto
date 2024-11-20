@@ -7,8 +7,8 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/9Neechan/book-store/pkg/book_store/v1;buy";
 
 service BuyV1 {
-  rpc Create(CreateRequest) returns (CreateResponse);
-  rpc Get(GetRequest) returns (GetResponse);
+  rpc Create(CreateRequestBuy) returns (CreateResponseBuy);
+  rpc Get(GetRequestBuy) returns (GetResponseBuy);
 }
 
 message BuyInfo {
@@ -23,18 +23,18 @@ message Buy {
   google.protobuf.Timestamp updated_at = 3;
 }
 
-message CreateRequest {
+message CreateRequestBuy {
   BuyInfo info = 1;
 }
 
-message CreateResponse {
+message CreateResponseBuy {
   int64 id = 1;
 }
 
-message GetRequest {
+message GetRequestBuy {
   int64 id = 1;
 }
 
-message GetResponse {
+message GetResponseBuy {
   Buy buy = 1;
 }

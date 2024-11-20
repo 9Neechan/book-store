@@ -7,13 +7,13 @@ import (
 	desc "github.com/9Neechan/book-store/pkg/book_store/v1/buy"
 )
 
-func (i *Implementation) Create(ctx context.Context, req *desc.CreateRequest) (*desc.CreateResponse, error) {
+func (i *Implementation) Create(ctx context.Context, req *desc.CreateRequestBuy) (*desc.CreateResponseBuy, error) {
 	err := i.buyService.Create(ctx, converter.ToBuyInfoFromDesc(req.GetInfo()))
 	if err != nil {
 		return nil, err
 	}
 
-	return &desc.CreateResponse{
+	return &desc.CreateResponseBuy{
 	}, nil
 }
 

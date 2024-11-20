@@ -22,8 +22,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BuyV1Client interface {
-	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
-	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
+	Create(ctx context.Context, in *CreateRequestBuy, opts ...grpc.CallOption) (*CreateResponseBuy, error)
+	Get(ctx context.Context, in *GetRequestBuy, opts ...grpc.CallOption) (*GetResponseBuy, error)
 }
 
 type buyV1Client struct {
@@ -34,8 +34,8 @@ func NewBuyV1Client(cc grpc.ClientConnInterface) BuyV1Client {
 	return &buyV1Client{cc}
 }
 
-func (c *buyV1Client) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
-	out := new(CreateResponse)
+func (c *buyV1Client) Create(ctx context.Context, in *CreateRequestBuy, opts ...grpc.CallOption) (*CreateResponseBuy, error) {
+	out := new(CreateResponseBuy)
 	err := c.cc.Invoke(ctx, "/api.book_store.v1.BuyV1/Create", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -43,8 +43,8 @@ func (c *buyV1Client) Create(ctx context.Context, in *CreateRequest, opts ...grp
 	return out, nil
 }
 
-func (c *buyV1Client) Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
-	out := new(GetResponse)
+func (c *buyV1Client) Get(ctx context.Context, in *GetRequestBuy, opts ...grpc.CallOption) (*GetResponseBuy, error) {
+	out := new(GetResponseBuy)
 	err := c.cc.Invoke(ctx, "/api.book_store.v1.BuyV1/Get", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -56,8 +56,8 @@ func (c *buyV1Client) Get(ctx context.Context, in *GetRequest, opts ...grpc.Call
 // All implementations must embed UnimplementedBuyV1Server
 // for forward compatibility
 type BuyV1Server interface {
-	Create(context.Context, *CreateRequest) (*CreateResponse, error)
-	Get(context.Context, *GetRequest) (*GetResponse, error)
+	Create(context.Context, *CreateRequestBuy) (*CreateResponseBuy, error)
+	Get(context.Context, *GetRequestBuy) (*GetResponseBuy, error)
 	mustEmbedUnimplementedBuyV1Server()
 }
 
@@ -65,10 +65,10 @@ type BuyV1Server interface {
 type UnimplementedBuyV1Server struct {
 }
 
-func (UnimplementedBuyV1Server) Create(context.Context, *CreateRequest) (*CreateResponse, error) {
+func (UnimplementedBuyV1Server) Create(context.Context, *CreateRequestBuy) (*CreateResponseBuy, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedBuyV1Server) Get(context.Context, *GetRequest) (*GetResponse, error) {
+func (UnimplementedBuyV1Server) Get(context.Context, *GetRequestBuy) (*GetResponseBuy, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
 func (UnimplementedBuyV1Server) mustEmbedUnimplementedBuyV1Server() {}
@@ -85,7 +85,7 @@ func RegisterBuyV1Server(s grpc.ServiceRegistrar, srv BuyV1Server) {
 }
 
 func _BuyV1_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateRequest)
+	in := new(CreateRequestBuy)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -97,13 +97,13 @@ func _BuyV1_Create_Handler(srv interface{}, ctx context.Context, dec func(interf
 		FullMethod: "/api.book_store.v1.BuyV1/Create",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BuyV1Server).Create(ctx, req.(*CreateRequest))
+		return srv.(BuyV1Server).Create(ctx, req.(*CreateRequestBuy))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _BuyV1_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetRequest)
+	in := new(GetRequestBuy)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -115,7 +115,7 @@ func _BuyV1_Get_Handler(srv interface{}, ctx context.Context, dec func(interface
 		FullMethod: "/api.book_store.v1.BuyV1/Get",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BuyV1Server).Get(ctx, req.(*GetRequest))
+		return srv.(BuyV1Server).Get(ctx, req.(*GetRequestBuy))
 	}
 	return interceptor(ctx, in, info, handler)
 }

@@ -1,7 +1,7 @@
 package buy
 
 import (
-	service "github.com/9Neechan/book-store/internal/service/book_store"
+	service "github.com/9Neechan/book-store/internal/service"
 	desc "github.com/9Neechan/book-store/pkg/book_store/v1/buy"
 )
 

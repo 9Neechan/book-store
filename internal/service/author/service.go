@@ -1,8 +1,8 @@
 package author
 
 import (
-	repo "github.com/9Neechan/book-store/internal/repository/book_store"
-	def "github.com/9Neechan/book-store/internal/service/book_store"
+	repo "github.com/9Neechan/book-store/internal/repository"
+	def "github.com/9Neechan/book-store/internal/service"
 )
 
 var _ def.AuthorService = (*service)(nil)

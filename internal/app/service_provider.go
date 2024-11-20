@@ -3,29 +3,36 @@ package app
 import (
 	"log"
 
-	"github.com/9Neechan/book-store/internal/api/user"
 	"github.com/9Neechan/book-store/internal/config"
 	"github.com/9Neechan/book-store/internal/repository"
-	userRepository "github.com/9Neechan/book-store/internal/repository/user"
 	"github.com/9Neechan/book-store/internal/service"
+
+	"github.com/9Neechan/book-store/internal/api/user"
+	userRepository "github.com/9Neechan/book-store/internal/repository/user"
 	userService "github.com/9Neechan/book-store/internal/service/user"
+
+	"github.com/9Neechan/book-store/internal/api/author"
+	authorRepository "github.com/9Neechan/book-store/internal/repository/author"
+	authorService "github.com/9Neechan/book-store/internal/service/author"
 )
 
-type serviceProvider struct {
+type ServiceProvider struct {
 	grpcConfig config.GRPCConfig
 
 	userRepository repository.UserRepository
-
 	userService service.UserService
-
 	userImpl *user.Implementation
+
+	authorRepository repository.AuthorRepository
+	authorService service.AuthorService
+	authorImpl *author.Implementation
 }
 
-func newServiceProvider() *serviceProvider {
-	return &serviceProvider{}
+func newServiceProvider() *ServiceProvider {
+	return &ServiceProvider{}
 }
 
-func (s *serviceProvider) GRPCConfig() config.GRPCConfig {
+func (s *ServiceProvider) GRPCConfig() config.GRPCConfig {
 	if s.grpcConfig == nil {
 		cfg, err := config.NewGRPCConfig()
 		if err != nil {
@@ -38,7 +45,7 @@ func (s *serviceProvider) GRPCConfig() config.GRPCConfig {
 	return s.grpcConfig
 }
 
-func (s *serviceProvider) UserRepository() repository.UserRepository {
+func (s *ServiceProvider) UserRepository() repository.UserRepository {
 	if s.userRepository == nil {
 		s.userRepository = userRepository.NewRepository()
 	}
@@ -46,7 +53,7 @@ func (s *serviceProvider) UserRepository() repository.UserRepository {
 	return s.userRepository
 }
 
-func (s *serviceProvider) UserService() service.UserService {
+func (s *ServiceProvider) UserService() service.UserService {
 	if s.userService == nil {
 		s.userService = userService.NewService(
 			s.UserRepository(),
@@ -56,10 +63,36 @@ func (s *serviceProvider) UserService() service.UserService {
 	return s.userService
 }
 
-func (s *serviceProvider) UserImpl() *user.Implementation {
+func (s *ServiceProvider) UserImpl() *user.Implementation {
 	if s.userImpl == nil {
 		s.userImpl = user.NewImplementation(s.UserService())
 	}
 
 	return s.userImpl
+}
+
+func (s *ServiceProvider) AuthorRepository() repository.AuthorRepository {
+	if s.authorRepository == nil {
+		s.authorRepository = authorRepository.NewRepository()
+	}
+
+	return s.authorRepository
+}
+
+func (s *ServiceProvider) AuthorService() service.AuthorService {
+	if s.authorService == nil {
+		s.authorService = authorService.NewService(
+			s.AuthorRepository(),
+		)
+	}
+
+	return s.authorService
+}
+
+func (s *ServiceProvider) AuthorImpl() *author.Implementation {
+	if s.authorImpl == nil {
+		s.authorImpl = author.NewImplementation(s.AuthorService())
+	}
+
+	return s.authorImpl
 }
