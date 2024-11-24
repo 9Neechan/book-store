@@ -18,14 +18,15 @@ import (
 
 type ServiceProvider struct {
 	grpcConfig config.GRPCConfig
+	//pgConfig   config.PGConfig
 
 	userRepository repository.UserRepository
-	userService service.UserService
-	userImpl *user.Implementation
+	userService    service.UserService
+	userImpl       *user.Implementation
 
 	authorRepository repository.AuthorRepository
-	authorService service.AuthorService
-	authorImpl *author.Implementation
+	authorService    service.AuthorService
+	authorImpl       *author.Implementation
 }
 
 func newServiceProvider() *ServiceProvider {
@@ -44,6 +45,19 @@ func (s *ServiceProvider) GRPCConfig() config.GRPCConfig {
 
 	return s.grpcConfig
 }
+
+/*func (s *ServiceProvider) PGConfig() config.PGConfig {
+	if s.pgConfig == nil {
+		cfg, err := config.NewPGConfig()
+		if err != nil {
+			log.Fatalf("failed to get pg config: %s", err.Error())
+		}
+
+		s.pgConfig = cfg
+	}
+
+	return s.pgConfig
+}*/
 
 func (s *ServiceProvider) UserRepository() repository.UserRepository {
 	if s.userRepository == nil {

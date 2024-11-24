@@ -10,13 +10,15 @@ import (
 	"google.golang.org/grpc/reflection"
 
 	"github.com/9Neechan/book-store/internal/config"
+	"github.com/9Neechan/book-store/internal/db"
+	author_desc "github.com/9Neechan/book-store/pkg/book_store/v1/author"
 	user_desc "github.com/9Neechan/book-store/pkg/user_v1"
-	author_desc  "github.com/9Neechan/book-store/pkg/book_store/v1/author"
 )
 
 type App struct {
 	ServiceProvider *ServiceProvider
 	grpcServer      *grpc.Server
+	postgesDb       *db.PostgresService
 }
 
 func NewApp(ctx context.Context) (*App, error) {
@@ -92,3 +94,13 @@ func (a *App) runGRPCServer() error {
 
 	return nil
 }
+
+/*func (a *App) ConnectDB() {
+	pgDB, err := db.NewPostgresDB(a.ServiceProvider.pgConfig.ConnectionString())
+	if err != nil {
+		log.Fatalf("Failed to connect to database: %v", err)
+	}
+	//defer pgDB.Close()
+
+	a.postgesDb = db.NewService(pgDB)
+}*/

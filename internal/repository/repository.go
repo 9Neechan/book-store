@@ -11,7 +11,6 @@ type UserRepository interface {
 	Get(ctx context.Context, uuid string) (*model.User, error)
 } 
 
-
 type AuthorRepository interface {
 	Create(ctx context.Context, info *model.AuthorInfo) error
 	Get(ctx context.Context, authorID int) (*model.Author, error)
