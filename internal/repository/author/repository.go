@@ -17,6 +17,28 @@ import (
 var _ def.AuthorRepository = (*repository)(nil)
 
 type repository struct {
+	Db db.Database
+	m  sync.RWMutex
+}
+
+// NewService - конструктор сервиса
+func NewRepository() *repository {
+	connStr, err := config.GetConnectionString()
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+
+	pgDB, err := db.NewPostgresDB(connStr)
+	if err != nil {
+		log.Fatalf("Failed to connect to pg database: %v", err)
+	}
+
+	return &repository{
+		Db: pgDB,
+	}
+}
+
+/*type repository struct {
 	postgesDb *db.PostgresService
 	m         sync.RWMutex
 }
@@ -26,6 +48,7 @@ func NewRepository() *repository {
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
+
 	pgDB, err := db.NewPostgresDB(connStr)
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
@@ -34,7 +57,7 @@ func NewRepository() *repository {
 	return &repository{
 		postgesDb: db.NewService(pgDB),
 	}
-}
+}*/
 
 func (r *repository) Create(_ context.Context, info *model.AuthorInfo) error {
 	r.m.Lock()
@@ -42,7 +65,7 @@ func (r *repository) Create(_ context.Context, info *model.AuthorInfo) error {
 
 	q := fmt.Sprintf("INSERT INTO author (name_author) VALUES %s", info.NameAuthor)
 
-	rows, err := r.postgesDb.Db.Query(q)
+	rows, err := r.Db.Query(q)
 	if err != nil {
 		return err
 	}
@@ -57,7 +80,7 @@ func (r *repository) Get(_ context.Context, id int) (*model.Author, error) {
 
 	q := fmt.Sprintf("SELECT * FROM author WHERE id = %d", id)
 
-	rows, err := r.postgesDb.Db.Query(q)
+	rows, err := r.Db.Query(q)
 	if err != nil {
 		return &model.Author{}, err
 	}

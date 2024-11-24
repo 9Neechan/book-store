@@ -10,7 +10,6 @@ import (
 	"google.golang.org/grpc/reflection"
 
 	"github.com/9Neechan/book-store/internal/config"
-	"github.com/9Neechan/book-store/internal/db"
 	author_desc "github.com/9Neechan/book-store/pkg/book_store/v1/author"
 	user_desc "github.com/9Neechan/book-store/pkg/user_v1"
 )
@@ -18,7 +17,7 @@ import (
 type App struct {
 	ServiceProvider *ServiceProvider
 	grpcServer      *grpc.Server
-	postgesDb       *db.PostgresService
+	//postgesDb       *db.PostgresService
 }
 
 func NewApp(ctx context.Context) (*App, error) {
